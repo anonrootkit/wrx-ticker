@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/coins">
+
+    <fragment
+        android:id="@+id/coins"
+        android:name="com.fiore.wazirxticker.ui.home.coins.Coins"
+        android:label="Coins" >
+        <action
+            android:id="@+id/action_coins_to_newCoin"
+            app:destination="@id/newCoin" />
+        <action
+            android:id="@+id/action_coins_to_investments"
+            app:destination="@id/investments" />
+    </fragment>
+    <dialog
+        android:id="@+id/newCoin"
+        android:name="com.fiore.wazirxticker.ui.home.add.NewCoin"
+        android:label="NewCoin" />
+    <fragment
+        android:id="@+id/investments"
+        android:name="com.fiore.wazirxticker.ui.home.investments.Investments"
+        android:label="fragment_investments"
+        tools:layout="@layout/fragment_investments" />
+</navigation>
