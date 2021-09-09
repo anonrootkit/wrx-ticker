@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MissingConstraints, ContentDescription">
+
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="0dp"
+            android:layout_height="?attr/listPreferredItemHeight"
+            style="@style/CONSTRAINT_CENTER_HORIZONTAL_BOTTOM"
+            android:id="@+id/bottom_navigation"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
+            app:elevation="0dp"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/add_coin_fab"
+            android:src="@drawable/ic_add"
+            tools:ignore="ContentDescription"
+            app:elevation="16dp"
+            app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+            app:layout_constraintTop_toTopOf="@id/bottom_navigation"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

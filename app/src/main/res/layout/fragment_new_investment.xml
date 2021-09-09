@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_investment"
+            android:textSize="20sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:id="@+id/coin_name"
+            android:paddingBottom="16dp"
+            android:hint="@string/coin_name"
+            tools:ignore="Autofill,TextFields" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:id="@+id/buy_price"
+                android:paddingBottom="16dp"
+                android:inputType="numberDecimal"
+                android:hint="@string/buy_price"
+                android:layout_marginEnd="8dp"
+                tools:ignore="Autofill,TextFields" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_marginTop="8dp"
+                android:id="@+id/buy_amount"
+                android:paddingBottom="16dp"
+                android:hint="@string/amount"
+                tools:ignore="Autofill,TextFields" />
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/add_investment"
+            android:textAllCaps="false"
+            android:id="@+id/add_investment"
+            app:iconGravity="textStart" />
+    </LinearLayout>
+</layout>

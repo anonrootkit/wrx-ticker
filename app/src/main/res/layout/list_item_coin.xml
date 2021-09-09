@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.fiore.wazirxticker.data.database.entities.Coin"/>
+
+        <variable
+            name="coin"
+            type="Coin" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/coin_icon"
+            style="@style/CONSTRAINT_START_TOP"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/coin_icon_shape"
+            android:gravity="center"
+            android:text="@{coin.name}"
+            tools:text="BTC" />
+
+        <TextView
+            android:id="@+id/coin_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/coin_number"
+            app:layout_constraintStart_toEndOf="@id/coin_icon"
+            app:layout_constraintTop_toTopOf="@id/coin_icon"
+            tools:text="BTC"
+            android:text="@{coin.name}"
+            />
+
+        <TextView
+            android:id="@+id/coin_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/coin_icon"
+            app:layout_constraintStart_toEndOf="@id/coin_icon"
+            app:layout_constraintTop_toBottomOf="@id/coin_name"
+            textFormat="@{@string/volume_format}"
+            unformattedText="@{coin.price.volume}"
+            tools:text="vol. 500" />
+
+        <TextView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/current_sell_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$140"
+            unformattedText="@{coin.price.buyPrice}"
+            textFormat="@{@string/price_format}"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:id="@+id/current_buy_price"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/md_green_500"
+            />
+
+        <TextView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/current_buy_price"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$140"
+            android:textColor="@color/md_red_500"
+            unformattedText="@{coin.price.sellPrice}"
+            textFormat="@{@string/price_format}"
+            android:textSize="16sp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:id="@+id/current_sell_price"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
