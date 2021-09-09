@@ -2,19 +2,12 @@ package com.fiore.wazirxticker.ui.home
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.iterator
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.chuckerteam.chucker.databinding.ChuckerActivityMainBinding
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.ActivityMainBinding
-import com.fiore.wazirxticker.ui.home.coins.CoinsDirections
-import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
-import com.fiore.wazirxticker.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigationContainer.addCoinFab.setOnClickListener {
             when(rootNavController.currentDestination?.id){
                 R.id.coins ->  rootNavController.navigate(R.id.newCoin)
-                R.id.investments -> rootNavController.navigate(R.id.newCoin)
+                R.id.investments -> rootNavController.navigate(R.id.newInvestment)
                 else -> View.GONE
             }
         }

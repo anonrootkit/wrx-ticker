@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fiore.wazirxticker.data.database.entities.Coin
 import com.fiore.wazirxticker.databinding.ListItemCoinBinding
+import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
 
 class CoinsAdapter(private val inflater: LayoutInflater) :
     ListAdapter<Coin, CoinsAdapter.CoinViewHolder>(DiffCallback) {

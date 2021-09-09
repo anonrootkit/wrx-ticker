@@ -61,3 +61,7 @@ fun NavController.safeNavigate(direction: NavDirections) {
 fun Fragment.safeNavigate(direction: NavDirections) {
     findNavController().safeNavigate(direction)
 }
+
+fun String.isValid() : Boolean {
+    return validatePrice(this)
+}

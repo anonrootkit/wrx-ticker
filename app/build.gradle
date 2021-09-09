@@ -66,8 +66,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Chucker Dependencies
-    debugImplementation "com.github.ChuckerTeam.Chucker:library:$chuckerVersion"
-    releaseImplementation "com.github.ChuckerTeam.Chucker:library-no-op:$chuckerVersion"
+//    debugImplementation "com.github.ChuckerTeam.Chucker:library:$chuckerVersion"
+//    releaseImplementation "com.github.ChuckerTeam.Chucker:library-no-op:$chuckerVersion"
 
     // Store4 Dependencies
     implementation "com.dropbox.mobile.store:store4:$store_version"

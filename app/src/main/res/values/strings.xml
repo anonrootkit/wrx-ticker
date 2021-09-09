@@ -12,7 +12,14 @@
 
     <string name="volume_format">vol. %1$s</string>
     <string name="price_format">₹%1$s</string>
+    <string name="price_format_float">₹%1$d</string>
     <string name="coins">Coins</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_investment">Add Investment</string>
+    <string name="buy_price">Buy price</string>
+    <string name="amount">Amount</string>
+    <string name="enter_valid_buy_price">Enter a valid buy price</string>
+    <string name="enter_valid_amount">Enter a valid amount</string>
+    <string name="adding_investment">Adding investment</string>
+    <string name="each">Each</string>
+    <string name="combined">Combined</string>
 </resources>

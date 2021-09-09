@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentNewCoinBinding
 import com.fiore.wazirxticker.domain.core.ResponseStatus
@@ -14,6 +15,7 @@ import com.fiore.wazirxticker.utils.loader
 import com.fiore.wazirxticker.utils.showToast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NewCoin : BottomSheetDialogFragment() {
@@ -69,7 +71,9 @@ class NewCoin : BottomSheetDialogFragment() {
         binding.addCoin.setOnClickListener {
             val coinName : String = binding.coinName.text.toString()
             if (coinName.isNotBlank()){
-                pricesViewModel.fetchCoinDetails(name = coinName.trim().lowercase())
+                lifecycleScope.launch {
+                    pricesViewModel.fetchCoinDetails(name = coinName.trim().lowercase())
+                }
             }else{
                 showToast(getString(R.string.enter_valid_coin))
             }

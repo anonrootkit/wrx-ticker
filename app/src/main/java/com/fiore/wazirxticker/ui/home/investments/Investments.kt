@@ -1,60 +1,64 @@
 package com.fiore.wazirxticker.ui.home.investments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.fiore.wazirxticker.R
+import com.fiore.wazirxticker.databinding.FragmentInvestmentsBinding
+import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
+import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class Investments : Fragment(R.layout.fragment_investments) {
+    private lateinit var binding : FragmentInvestmentsBinding
+    private val pricesViewModel : PricesViewModel by viewModels()
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Investments.newInstance] factory method to
- * create an instance of this fragment.
- */
-class Investments : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val investmentsAdapter by lazy {
+        InvestmentsAdapter(
+            inflater = layoutInflater
+        )
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private val combinedInvestmentsAdapter by lazy {
+        InvestmentsAdapter(
+            inflater = layoutInflater
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentInvestmentsBinding.bind(view)
+        binding.lifecycleOwner = this
+
+        binding.investmentsList.apply {
+            adapter = investmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_investments, container, false)
-    }
+        binding.combinedInvestmentsList.apply {
+            adapter = combinedInvestmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Investments.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Investments().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        pricesViewModel.coins.observe(viewLifecycleOwner) {
+            pricesViewModel.startUpdatingCoins()
+        }
+
+        pricesViewModel.investments.observe(viewLifecycleOwner) {
+            investmentsAdapter.submitList(it)
+            pricesViewModel.startUpdatingInvestments()
+            binding.eachInvestmentLabel.visibility = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
+            binding.emptyInvestmentText.visibility =
+                if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+        }
+
+        pricesViewModel.combinedInvestments.observe(viewLifecycleOwner) {
+            combinedInvestmentsAdapter.submitList(it)
+            binding.combinedInvestmentLabel.visibility = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
     }
 }

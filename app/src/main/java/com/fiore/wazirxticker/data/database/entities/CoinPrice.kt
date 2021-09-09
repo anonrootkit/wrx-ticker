@@ -33,9 +33,9 @@ data class Coin(
 }
 
 data class CoinPrice(
-    @SerializedName("buy")
+    @SerializedName("sell") // reversed because reversed in ticket api
     val buyPrice: String,
-    @SerializedName("sell")
+    @SerializedName("buy")  // reversed because reversed in ticket api
     val sellPrice: String,
     @SerializedName("vol")
     val volume: String

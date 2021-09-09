@@ -7,11 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.fiore.wazirxticker.data.database.converters.Converters
 import com.fiore.wazirxticker.data.database.daos.CoinPricesDao
+import com.fiore.wazirxticker.data.database.daos.InvestmentsDao
 import com.fiore.wazirxticker.data.database.entities.Coin
+import com.fiore.wazirxticker.data.database.entities.Investment
 
 @Database(
     entities = [
-        Coin::class
+        Coin::class,
+        Investment::class
     ],
     version = 1,
     exportSchema = false
@@ -21,6 +24,7 @@ import com.fiore.wazirxticker.data.database.entities.Coin
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun coinPricesDao(): CoinPricesDao
+    abstract fun investmentsDao(): InvestmentsDao
 
     companion object {
         private const val DATABASE_NAME = "ticker-db"

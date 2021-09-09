@@ -1,9 +1,6 @@
 package com.fiore.wazirxticker.data.network.config
 
 import android.content.Context
-import com.chuckerteam.chucker.api.ChuckerCollector
-import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.chuckerteam.chucker.api.RetentionManager
 import com.fiore.wazirxticker.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -19,27 +16,27 @@ import javax.inject.Inject
 class APIService @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val collector: ChuckerCollector by lazy {
-        ChuckerCollector(
-            context = context,
-            showNotification = true,
-            retentionPeriod = RetentionManager.Period.ONE_HOUR
-        )
-    }
+//    private val collector: ChuckerCollector by lazy {
+//        ChuckerCollector(
+//            context = context,
+//            showNotification = true,
+//            retentionPeriod = RetentionManager.Period.ONE_HOUR
+//        )
+//    }
 
-    private val chuckerInterceptor: ChuckerInterceptor by lazy {
-        ChuckerInterceptor.Builder(context).apply {
-            collector(collector)
-            maxContentLength(120000L)
-        }.build()
-    }
+//    private val chuckerInterceptor: ChuckerInterceptor by lazy {
+//        ChuckerInterceptor.Builder(context).apply {
+//            collector(collector)
+//            maxContentLength(120000L)
+//        }.build()
+//    }
 
     private val httpClient: OkHttpClient = OkHttpClient.Builder().apply {
         val TIMEOUT_MILLIS = 20000L // 20 seconds
 
-        if (BuildConfig.DEBUG) {
-            addNetworkInterceptor(chuckerInterceptor)
-        }
+//        if (BuildConfig.DEBUG) {
+//            addNetworkInterceptor(chuckerInterceptor)
+//        }
 
         connectTimeout(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
         readTimeout(TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)

@@ -24,5 +24,13 @@
         android:id="@+id/investments"
         android:name="com.fiore.wazirxticker.ui.home.investments.Investments"
         android:label="fragment_investments"
-        tools:layout="@layout/fragment_investments" />
+        tools:layout="@layout/fragment_investments" >
+        <action
+            android:id="@+id/action_investments_to_newInvestment"
+            app:destination="@id/newInvestment" />
+    </fragment>
+    <dialog
+        android:id="@+id/newInvestment"
+        android:name="com.fiore.wazirxticker.ui.home.add.NewInvestment"
+        android:label="NewInvestment" />
 </navigation>

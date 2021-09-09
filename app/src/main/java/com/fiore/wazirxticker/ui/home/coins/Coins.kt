@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentCoinsBinding
 import com.fiore.wazirxticker.ui.home.coins.adapter.CoinsAdapter
+import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
-import com.fiore.wazirxticker.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,7 +39,7 @@ class Coins : Fragment(R.layout.fragment_coins) {
         pricesViewModel.coins.observe(viewLifecycleOwner) {
             coinsAdapter.submitList(it?.map { it.copy(name = it.name.uppercase()) })
             pricesViewModel.startUpdatingCoins()
-            binding.emptyPostsText.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+            binding.emptyCoinsText.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
     }
 }

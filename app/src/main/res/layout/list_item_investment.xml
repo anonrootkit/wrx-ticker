@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.fiore.wazirxticker.data.database.entities.Investment"/>
+
+        <variable
+            name="investment"
+            type="Investment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/coin_icon"
+            style="@style/CONSTRAINT_START_TOP"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/coin_icon_shape"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="@{investment.name}"
+            tools:text="BTC" />
+
+        <TextView
+            android:id="@+id/total_coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/buy_price"
+            app:layout_constraintStart_toEndOf="@id/coin_icon"
+            app:layout_constraintTop_toTopOf="@id/coin_icon"
+            tools:text="Coins : 500"
+            android:text="@{investment.formattedTotalCoins}"
+            />
+
+        <TextView
+            android:id="@+id/buy_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:visibility="@{investment.itemVisibility}"
+            app:layout_constraintBottom_toTopOf="@id/invested_amount"
+            app:layout_constraintStart_toEndOf="@id/coin_icon"
+            app:layout_constraintTop_toBottomOf="@id/total_coins"
+            android:text="@{investment.formattedBuyPrice()}"
+            tools:text="\@ ₹14/BTC" />
+
+        <TextView
+            android:id="@+id/invested_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/coin_icon"
+            app:layout_constraintStart_toEndOf="@id/coin_icon"
+            app:layout_constraintTop_toBottomOf="@id/buy_price"
+            android:text="@{investment.formattedBuyAmount()}"
+            tools:text="₹5000" />
+
+        <TextView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/current_sell_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="40.1%"
+            profit_color="@{investment}"
+            android:text="@{investment.formattedProfitPercent()}"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:id="@+id/profit_percent"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"
+            />
+
+        <TextView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profit_percent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$123000"
+            profit_color="@{investment}"
+            android:text="@{investment.formattedProfitAmount()}"
+            android:textSize="16sp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:id="@+id/current_sell_price"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
