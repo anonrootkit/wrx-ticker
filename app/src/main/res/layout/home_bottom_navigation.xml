@@ -27,6 +27,8 @@
             android:id="@+id/add_coin_fab"
             android:src="@drawable/ic_add"
             tools:ignore="ContentDescription"
+            app:borderWidth="0dp"
+            android:backgroundTint="?attr/colorAccent"
             app:elevation="16dp"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintTop_toTopOf="@id/bottom_navigation"
