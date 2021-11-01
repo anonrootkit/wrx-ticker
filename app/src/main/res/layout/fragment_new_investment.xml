@@ -51,6 +51,7 @@
                 android:id="@+id/buy_amount"
                 android:paddingBottom="16dp"
                 android:hint="@string/amount"
+                android:inputType="numberDecimal"
                 tools:ignore="Autofill,TextFields" />
 
         </LinearLayout>

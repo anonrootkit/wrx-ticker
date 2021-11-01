@@ -39,7 +39,7 @@ class NewInvestment : BottomSheetDialogFragment() {
         loader = loader(getString(R.string.adding_investment))
 
         binding.addInvestment.setOnClickListener {
-            val coinName: String = binding.coinName.text.toString()
+            val coinName: String = binding.coinName.text.toString().lowercase()
 
             if (coinName.isNotBlank()) {
                 val buyPrice = binding.buyPrice.text.toString()
