@@ -1,14 +1,13 @@
 package com.fiore.wazirxticker.utils
 
+import android.content.res.Resources
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.fiore.wazirxticker.R
 import timber.log.Timber
 
 fun Any.timberD(msg: String) {
@@ -64,4 +63,13 @@ fun Fragment.safeNavigate(direction: NavDirections) {
 
 fun String.isValid() : Boolean {
     return validatePrice(this)
+}
+
+fun ImageView.applyThemeSettings(theme : String, workToDo : (String) -> Unit) {
+    when(theme) {
+        ThemeConstants.LIGHT -> setImageResource(R.drawable.ic_light_theme)
+        ThemeConstants.DARK -> setImageResource(R.drawable.ic_dark_theme)
+    }
+
+    setOnClickListener { workToDo(theme) }
 }
