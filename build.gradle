@@ -14,7 +14,7 @@ buildscript {
         hilt_version = '2.36'
         google_services = '4.3.8'
         crashlytics = '2.7.1'
-        nav_version = '2.3.5'
+        nav_version = '2.4.0-beta01'
 
         // Version code and names
         versionCode = 2
