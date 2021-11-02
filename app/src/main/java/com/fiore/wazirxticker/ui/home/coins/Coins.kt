@@ -5,12 +5,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentCoinsBinding
+import com.fiore.wazirxticker.ui.home.HomeActivity
+import com.fiore.wazirxticker.ui.home.coins.adapter.CoinSwipeListener
 import com.fiore.wazirxticker.ui.home.coins.adapter.CoinsAdapter
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
 import com.fiore.wazirxticker.ui.viewmodels.UtilsViewModel
+import com.fiore.wazirxticker.utils.SnackbarAction
 import com.fiore.wazirxticker.utils.ThemeConstants
 import com.fiore.wazirxticker.utils.applyThemeSettings
 import com.fiore.wazirxticker.utils.changeAppTheme
@@ -24,8 +28,29 @@ class Coins : Fragment(R.layout.fragment_coins) {
     private val utilsViewModel: UtilsViewModel by activityViewModels()
 
     private val coinsAdapter by lazy {
-        CoinsAdapter(
-            inflater = layoutInflater
+        CoinsAdapter(inflater = layoutInflater)
+    }
+
+    private fun showSnackBar() {
+        (activity as? HomeActivity)?.showSnackbar(
+            snackbarMsg = getString(R.string.undo_coin_delete),
+            snackbarAction = SnackbarAction(
+                actionTitle = R.string.undo,
+                actionToPerform = {
+                    pricesViewModel.undoCoinVisibilityStatus()
+                }
+            )
+        )
+    }
+
+    private val coinSwipeListener by lazy {
+        CoinSwipeListener(
+            context = requireContext(),
+            coinsAdapter = coinsAdapter,
+            deleteCoin = { coinName ->
+                pricesViewModel.hideCoinInDB(coinName.lowercase())
+                showSnackBar()
+            }
         )
     }
 
@@ -41,6 +66,7 @@ class Coins : Fragment(R.layout.fragment_coins) {
 
         binding.coinsList.apply {
             adapter = coinsAdapter
+            ItemTouchHelper(coinSwipeListener).attachToRecyclerView(this)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 

@@ -5,12 +5,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentInvestmentsBinding
+import com.fiore.wazirxticker.ui.home.HomeActivity
+import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentSwipeListener
 import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
 import com.fiore.wazirxticker.ui.viewmodels.UtilsViewModel
+import com.fiore.wazirxticker.utils.SnackbarAction
 import com.fiore.wazirxticker.utils.ThemeConstants
 import com.fiore.wazirxticker.utils.applyThemeSettings
 import com.fiore.wazirxticker.utils.changeAppTheme
@@ -34,6 +38,29 @@ class Investments : Fragment(R.layout.fragment_investments) {
         )
     }
 
+    private val investmentSwipeListener by lazy {
+        InvestmentSwipeListener(
+            context = requireContext(),
+            investmentsAdapter = investmentsAdapter,
+            deleteInvestment = { investment ->
+                pricesViewModel.deleteInvestmentFromDB(investment)
+                showSnackBar()
+            }
+        )
+    }
+
+    private fun showSnackBar() {
+        (activity as? HomeActivity)?.showSnackbar(
+            snackbarMsg = getString(R.string.undo_investment_delete),
+            snackbarAction = SnackbarAction(
+                actionTitle = R.string.undo,
+                actionToPerform = {
+                    pricesViewModel.undoDeleteInvestment()
+                }
+            )
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +71,7 @@ class Investments : Fragment(R.layout.fragment_investments) {
 
         binding.investmentsList.apply {
             adapter = investmentsAdapter
+            ItemTouchHelper(investmentSwipeListener).attachToRecyclerView(this)
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 

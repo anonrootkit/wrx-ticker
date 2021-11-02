@@ -72,7 +72,7 @@ class NewCoin : BottomSheetDialogFragment() {
             val coinName : String = binding.coinName.text.toString()
             if (coinName.isNotBlank()){
                 lifecycleScope.launch {
-                    pricesViewModel.fetchCoinDetails(name = coinName.trim().lowercase())
+                    pricesViewModel.fetchCoinDetails(name = coinName.trim().lowercase(), newCoin = true)
                 }
             }else{
                 showToast(getString(R.string.enter_valid_coin))

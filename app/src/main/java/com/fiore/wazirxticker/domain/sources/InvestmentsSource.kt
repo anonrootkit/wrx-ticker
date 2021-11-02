@@ -26,6 +26,12 @@ class InvestmentsSource @Inject constructor(
         }
     }
 
+    suspend fun deleteInvestment(investmentId: Long) {
+        withContext(Dispatchers.IO) {
+            database.investmentsDao().deleteInvestment(investmentId)
+        }
+    }
+
     fun getAllInvestments(): LiveData<List<Investment>> {
         return database.investmentsDao().getAllInvestments()
     }

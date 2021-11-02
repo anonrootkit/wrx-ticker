@@ -22,4 +22,7 @@
     <string name="adding_investment">Adding investment</string>
     <string name="each">Each</string>
     <string name="combined">Combined</string>
+    <string name="undo_coin_delete">Undo coin delete</string>
+    <string name="undo_investment_delete">Undo investment delete</string>
+    <string name="undo">Undo</string>
 </resources>

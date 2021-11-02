@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.fiore.wazirxticker.data.database.entities.Coin
 import com.fiore.wazirxticker.databinding.ListItemCoinBinding
-import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
 
-class CoinsAdapter(private val inflater: LayoutInflater) :
-    ListAdapter<Coin, CoinsAdapter.CoinViewHolder>(DiffCallback) {
+class CoinsAdapter(
+    private val inflater: LayoutInflater,
+) : ListAdapter<Coin, CoinsAdapter.CoinViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<Coin>() {
         override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean =

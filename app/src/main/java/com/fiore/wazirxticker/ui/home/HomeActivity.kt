@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.fiore.wazirxticker.ui.home
 
 import android.os.Bundle
@@ -8,6 +10,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.ActivityMainBinding
+import com.fiore.wazirxticker.utils.SnackbarAction
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,5 +65,23 @@ class HomeActivity : AppCompatActivity() {
             binding.bottomNavigationContainer.bottomNavigation,
             rootNavController
         )
+    }
+
+    fun showSnackbar(
+        snackbarMsg: String,
+        snackbarAction: SnackbarAction? = null,
+    ) {
+        try {
+            val snackbar = Snackbar.make(this, binding.bottomNavigationContainer.root, snackbarMsg, Snackbar.LENGTH_SHORT)
+            snackbarAction?.let { action ->
+                snackbar.setAction(action.actionTitle) {
+                    action.actionToPerform()
+                }
+            }
+            snackbar.anchorView = binding.bottomNavigationContainer.root
+            snackbar.show()
+        } catch (e: Exception) {
+
+        }
     }
 }

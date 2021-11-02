@@ -1,4 +1,5 @@
 @file:SuppressLint("NullSafeMutableLiveData")
+
 package com.fiore.wazirxticker.ui.viewmodels
 
 import android.annotation.SuppressLint
@@ -26,6 +27,9 @@ class PricesViewModel @Inject constructor(
     private val investmentsSource: InvestmentsSource
 ) : ViewModel() {
 
+    private val coinHidden: MutableLiveData<String> = MutableLiveData()
+    private var investmentDeleted: Investment? = null
+
     private val _coinDetailsFetchStatus = MutableLiveData<ResponseStatus>()
     val coinDetailsFetchStatus: LiveData<ResponseStatus>
         get() = _coinDetailsFetchStatus
@@ -41,7 +45,7 @@ class PricesViewModel @Inject constructor(
         override fun onTick(millisUntilFinished: Long) {
             coins.value?.forEach {
                 viewModelScope.launch {
-                    fetchCoinDetails(it.name.lowercase())
+                    fetchCoinDetails(it.name)
                 }
             }
         }
@@ -76,7 +80,9 @@ class PricesViewModel @Inject constructor(
     }
 
     val coins = Transformations.map(pricesSource.getAllCoins()) {
-        it
+        it.filter {
+            it.showCoinInList ?: true
+        }
     }
 
     val investments = Transformations.map(investmentsSource.getAllInvestments()) {
@@ -87,11 +93,14 @@ class PricesViewModel @Inject constructor(
     }
 
     private suspend fun combinedInvestments(investments: List<Investment>?) {
-        if (investments.isNullOrEmpty()) return
+        if (investments.isNullOrEmpty()) {
+            _combinedInvestments.value = ArrayList()
+            return
+        }
 
         val combinedInvestments = ArrayList<Investment>()
 
-        val coinsName : HashSet<String> = HashSet()
+        val coinsName: HashSet<String> = HashSet()
 
         investments.forEach {
             coinsName.add(it.name.lowercase())
@@ -99,7 +108,7 @@ class PricesViewModel @Inject constructor(
 
         coinsName.forEach {
             val allInvestments = investmentsSource.getInvestmentsAtOnce(it)
-            if (!allInvestments.isNullOrEmpty()){
+            if (!allInvestments.isNullOrEmpty()) {
                 combinedInvestments.add(getCombinedInvestment(investments = allInvestments))
             }
         }
@@ -126,7 +135,11 @@ class PricesViewModel @Inject constructor(
             buyAmount = totalBuyAmount.bis(),
             totalCoins = totalCoins.toString(),
             profitAmount = totalProfitAmount.bis(),
-            profitPercent = totalProfitPercent.divide(investments.size.toBigDecimal(), 2, RoundingMode.HALF_EVEN).toPlainString(),
+            profitPercent = totalProfitPercent.divide(
+                investments.size.toBigDecimal(),
+                2,
+                RoundingMode.HALF_EVEN
+            ).toPlainString(),
             isCombinedInvestment = true,
             buyPrice = "0"
         )
@@ -135,16 +148,17 @@ class PricesViewModel @Inject constructor(
     }
 
     private val _combinedInvestments = MutableLiveData<List<Investment>>()
-    val combinedInvestments : LiveData<List<Investment>>
+    val combinedInvestments: LiveData<List<Investment>>
         get() = _combinedInvestments
 
-    private fun getCurrency() : String {
+    private fun getCurrency(): String {
         return Currency.INR.value
     }
 
-    suspend fun fetchCoinDetails(name: String) {
+    suspend fun fetchCoinDetails(name: String, newCoin : Boolean = false) {
         _coinDetailsFetchStatus.value = ResponseStatus.LOADING
-        var response : Result<Coin>? = null
+
+        var response: Result<Coin>? = null
         withContext(Dispatchers.IO) {
             response = pricesSource.getPrice(name + getCurrency())
         }
@@ -155,7 +169,7 @@ class PricesViewModel @Inject constructor(
                 val coinInDB = getCoinFromDB(name)
 
                 if (coinInDB != null) {
-                    pricesSource.updateCoinInDB(fetchedCoin.copy(showCoinInList = coinInDB.showCoinInList))
+                    pricesSource.updateCoinInDB(fetchedCoin.copy(showCoinInList = if (newCoin) true else coinInDB.showCoinInList))
                 } else {
                     pricesSource.insertCoinInDB(fetchedCoin.copy(showCoinInList = true))
                 }
@@ -183,14 +197,23 @@ class PricesViewModel @Inject constructor(
         return pricesSource.getCoinFromDB(name)
     }
 
-    suspend fun updateEachInvestment(investment : Investment) {
+    suspend fun updateEachInvestment(investment: Investment) {
         val coin = pricesSource.getCoinFromDB(investment.name) ?: return
         updateInvestment(investment, coin, investment.buyAmount.bi(), investment.buyPrice.bd())
     }
 
-    private suspend fun updateInvestment(investment: Investment, coin: Coin, buyAmount: BigInteger, buyPrice: BigDecimal) {
+    private suspend fun updateInvestment(
+        investment: Investment,
+        coin: Coin,
+        buyAmount: BigInteger,
+        buyPrice: BigDecimal
+    ) {
         val updatedInvestment = investment.copy(
-            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice).toPlainString(),
+            profitPercent = calculateCurrentProfitPercent(
+                coin,
+                buyAmount,
+                buyPrice
+            ).toPlainString(),
             profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice).toString()
         )
 
@@ -228,20 +251,59 @@ class PricesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun insertInvestmentInDB(coin: Coin, buyAmount: BigInteger, buyPrice: BigDecimal) {
+    private suspend fun insertInvestmentInDB(
+        coin: Coin,
+        buyAmount: BigInteger,
+        buyPrice: BigDecimal
+    ) {
         val investment = Investment(
             id = System.currentTimeMillis(),
             name = coin.name,
             buyPrice = buyPrice.toPlainString(),
             buyAmount = buyAmount.toString(),
             profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice).toString(),
-            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice).toPlainString(),
+            profitPercent = calculateCurrentProfitPercent(
+                coin,
+                buyAmount,
+                buyPrice
+            ).toPlainString(),
             totalCoins = getTotalCoins(buyAmount, buyPrice).toPlainString()
         )
 
         investmentsSource.insertInvestment(investment)
     }
 
+    fun hideCoinInDB(coinName: String) {
+        viewModelScope.launch {
+            coinHidden.value = coinName
+            pricesSource.updateCoinVisibilityStatus(coinName, show = false)
+        }
+    }
+
+    fun undoCoinVisibilityStatus() {
+        viewModelScope.launch {
+            coinHidden.value?.let {
+                pricesSource.updateCoinVisibilityStatus(name = it, show = true)
+                coinHidden.value = null
+            }
+        }
+    }
+
+    fun deleteInvestmentFromDB(investment: Investment) {
+        viewModelScope.launch {
+            investmentDeleted = investment
+            investmentsSource.deleteInvestment(investmentId = investment.id)
+        }
+    }
+
+    fun undoDeleteInvestment() {
+        viewModelScope.launch {
+            investmentDeleted?.let {
+                investmentsSource.insertInvestment(it)
+                investmentDeleted = null
+            }
+        }
+    }
 }
 
 enum class Currency(val value: String) {
