@@ -1,0 +1,124 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "700e86cbf081fa64f16270a14cb4c6c2",
+    "entities": [
+      {
+        "tableName": "coins",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `at_time` INTEGER NOT NULL, `coin_price` TEXT NOT NULL, `show_coin_in_list` INTEGER, PRIMARY KEY(`name`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "atTime",
+            "columnName": "at_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "coin_price",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "showCoinInList",
+            "columnName": "show_coin_in_list",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "investments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `buy_price` REAL NOT NULL, `buy_amount` INTEGER NOT NULL, `profit_amount` INTEGER NOT NULL, `profit_percent` REAL NOT NULL, `total_coins` REAL NOT NULL, `is_combined_investment` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "buyPrice",
+            "columnName": "buy_price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "buyAmount",
+            "columnName": "buy_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profitAmount",
+            "columnName": "profit_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "profitPercent",
+            "columnName": "profit_percent",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalCoins",
+            "columnName": "total_coins",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCombinedInvestment",
+            "columnName": "is_combined_investment",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_investments_name",
+            "unique": false,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_investments_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '700e86cbf081fa64f16270a14cb4c6c2')"
+    ]
+  }
+}

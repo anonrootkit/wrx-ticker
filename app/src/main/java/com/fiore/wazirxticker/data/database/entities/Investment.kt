@@ -21,19 +21,19 @@ data class Investment(
     val name: String,
 
     @ColumnInfo(name = "buy_price")
-    val buyPrice: Float,
+    val buyPrice: String,
 
     @ColumnInfo(name = "buy_amount")
-    val buyAmount: Long,
+    val buyAmount: String,
 
     @ColumnInfo(name = "profit_amount")
-    val profitAmount: Long,
+    val profitAmount: String,
 
     @ColumnInfo(name = "profit_percent")
-    val profitPercent: Float,
+    val profitPercent: String,
 
     @ColumnInfo(name = "total_coins")
-    val totalCoins : Float,
+    val totalCoins : String,
 
     @ColumnInfo(name = "is_combined_investment")
     val isCombinedInvestment : Boolean = false

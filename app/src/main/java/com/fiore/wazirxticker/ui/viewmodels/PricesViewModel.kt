@@ -10,13 +10,14 @@ import com.fiore.wazirxticker.domain.core.ResponseStatus
 import com.fiore.wazirxticker.domain.core.Result
 import com.fiore.wazirxticker.domain.sources.InvestmentsSource
 import com.fiore.wazirxticker.domain.sources.PricesSource
-import com.fiore.wazirxticker.utils.calculateCurrentPrice
-import com.fiore.wazirxticker.utils.calculateCurrentProfitPercent
-import com.fiore.wazirxticker.utils.getTotalCoins
+import com.fiore.wazirxticker.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.math.RoundingMode
 import javax.inject.Inject
 
 @HiltViewModel
@@ -107,27 +108,27 @@ class PricesViewModel @Inject constructor(
     }
 
     private fun getCombinedInvestment(investments: List<Investment>): Investment {
-        var totalProfitAmount : Float = 0f
-        var totalProfitPercent : Float = 0f
-        var totalBuyAmount : Float = 0f
-        var totalCoins : Float = 0f
+        var totalProfitAmount = BigDecimal(0)
+        var totalProfitPercent = BigDecimal(0)
+        var totalBuyAmount = BigDecimal(0)
+        var totalCoins = BigDecimal(0)
 
         investments.forEach {
-            totalProfitAmount += it.profitAmount
-            totalBuyAmount += it.buyAmount
-            totalCoins += it.totalCoins
-            totalProfitPercent += it.profitPercent
+            totalProfitAmount += it.profitAmount.bd()
+            totalBuyAmount += it.buyAmount.bd()
+            totalCoins += it.totalCoins.bd()
+            totalProfitPercent += it.profitPercent.bd()
         }
 
         val investment = Investment(
             id = System.currentTimeMillis(),
             name = investments[0].name,
-            buyAmount = totalBuyAmount.toLong(),
-            totalCoins = totalCoins,
-            profitAmount = totalProfitAmount.toLong(),
-            profitPercent = totalProfitPercent / investments.size,
+            buyAmount = totalBuyAmount.bis(),
+            totalCoins = totalCoins.toString(),
+            profitAmount = totalProfitAmount.bis(),
+            profitPercent = totalProfitPercent.divide(investments.size.toBigDecimal(), 2, RoundingMode.HALF_EVEN).toPlainString(),
             isCombinedInvestment = true,
-            buyPrice = 0f
+            buyPrice = "0"
         )
 
         return investment
@@ -184,19 +185,19 @@ class PricesViewModel @Inject constructor(
 
     suspend fun updateEachInvestment(investment : Investment) {
         val coin = pricesSource.getCoinFromDB(investment.name) ?: return
-        updateInvestment(investment, coin, investment.buyAmount, investment.buyPrice)
+        updateInvestment(investment, coin, investment.buyAmount.bi(), investment.buyPrice.bd())
     }
 
-    private suspend fun updateInvestment(investment: Investment, coin: Coin, buyAmount: Long, buyPrice: Float) {
+    private suspend fun updateInvestment(investment: Investment, coin: Coin, buyAmount: BigInteger, buyPrice: BigDecimal) {
         val updatedInvestment = investment.copy(
-            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice),
-            profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice)
+            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice).toPlainString(),
+            profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice).toString()
         )
 
         investmentsSource.updateInvestment(updatedInvestment)
     }
 
-    fun insertInvestment(name: String, buyPrice: Float, buyAmount: Long) {
+    fun insertInvestment(name: String, buyPrice: BigDecimal, buyAmount: BigInteger) {
         viewModelScope.launch {
             _addingInvestmentStatus.value = ResponseStatus.LOADING
             val coin = pricesSource.getCoinFromDB(name)
@@ -227,15 +228,15 @@ class PricesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun insertInvestmentInDB(coin: Coin, buyAmount: Long, buyPrice: Float) {
+    private suspend fun insertInvestmentInDB(coin: Coin, buyAmount: BigInteger, buyPrice: BigDecimal) {
         val investment = Investment(
             id = System.currentTimeMillis(),
             name = coin.name,
-            buyPrice = buyPrice,
-            buyAmount = buyAmount,
-            profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice),
-            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice),
-            totalCoins = getTotalCoins(buyAmount, buyPrice)
+            buyPrice = buyPrice.toPlainString(),
+            buyAmount = buyAmount.toString(),
+            profitAmount = calculateCurrentPrice(coin, buyAmount, buyPrice).toString(),
+            profitPercent = calculateCurrentProfitPercent(coin, buyAmount, buyPrice).toPlainString(),
+            totalCoins = getTotalCoins(buyAmount, buyPrice).toPlainString()
         )
 
         investmentsSource.insertInvestment(investment)

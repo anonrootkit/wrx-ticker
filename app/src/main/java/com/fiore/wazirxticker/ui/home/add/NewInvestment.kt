@@ -10,9 +10,7 @@ import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentNewInvestmentBinding
 import com.fiore.wazirxticker.domain.core.ResponseStatus
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
-import com.fiore.wazirxticker.utils.isValid
-import com.fiore.wazirxticker.utils.loader
-import com.fiore.wazirxticker.utils.showToast
+import com.fiore.wazirxticker.utils.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +39,7 @@ class NewInvestment : BottomSheetDialogFragment() {
         loader = loader(getString(R.string.adding_investment))
 
         binding.addInvestment.setOnClickListener {
-            val coinName: String = binding.coinName.text.toString()
+            val coinName: String = binding.coinName.text.toString().lowercase()
 
             if (coinName.isNotBlank()) {
                 val buyPrice = binding.buyPrice.text.toString()
@@ -55,8 +53,8 @@ class NewInvestment : BottomSheetDialogFragment() {
 
                         pricesViewModel.insertInvestment(
                             name = coinName,
-                            buyPrice = buyPrice.trim().toFloat(),
-                            buyAmount = buyAmount.trim().toFloat().toLong()
+                            buyPrice = buyPrice.trim().bd(),
+                            buyAmount = buyAmount.trim().bd().toBigInteger()
                         )
                     } else {
                         showToast(getString(R.string.enter_valid_amount))

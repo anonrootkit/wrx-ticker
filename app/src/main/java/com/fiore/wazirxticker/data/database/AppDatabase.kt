@@ -1,10 +1,7 @@
 package com.fiore.wazirxticker.data.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.fiore.wazirxticker.data.database.converters.Converters
 import com.fiore.wazirxticker.data.database.daos.CoinPricesDao
 import com.fiore.wazirxticker.data.database.daos.InvestmentsDao
@@ -16,8 +13,11 @@ import com.fiore.wazirxticker.data.database.entities.Investment
         Coin::class,
         Investment::class
     ],
-    version = 1,
-    exportSchema = false
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
 )
 @TypeConverters(
     value = [Converters::class]

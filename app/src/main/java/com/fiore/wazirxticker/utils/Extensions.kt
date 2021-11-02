@@ -9,6 +9,8 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.fiore.wazirxticker.R
 import timber.log.Timber
+import java.math.BigDecimal
+import java.math.BigInteger
 
 fun Any.timberD(msg: String) {
     Timber.tag(this.javaClass.simpleName).d(msg)
@@ -73,3 +75,9 @@ fun ImageView.applyThemeSettings(theme : String, workToDo : (String) -> Unit) {
 
     setOnClickListener { workToDo(theme) }
 }
+
+fun String.bd() = BigDecimal(this)
+fun String.bi() = BigInteger(this)
+
+fun BigDecimal.bis() = toBigInteger().toString()
+fun BigInteger.bds() = toBigDecimal().toPlainString()
