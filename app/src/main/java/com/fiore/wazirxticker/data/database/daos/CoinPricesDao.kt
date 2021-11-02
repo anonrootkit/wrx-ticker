@@ -20,4 +20,7 @@ interface CoinPricesDao {
 
     @Update
     suspend fun updateCoin(coin: Coin)
+
+    @Query("UPDATE coins SET show_coin_in_list=:show WHERE name=:name")
+    suspend fun updateCoinVisibilityStatus(name : String, show : Boolean)
 }

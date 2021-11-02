@@ -24,4 +24,7 @@ interface InvestmentsDao {
 
     @Update
     suspend fun updateInvestment(investment: Investment)
+
+    @Query("DELETE FROM investments WHERE id=:investmentId")
+    suspend fun deleteInvestment(investmentId : Long)
 }

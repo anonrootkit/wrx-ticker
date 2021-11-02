@@ -1,10 +1,15 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.fiore.wazirxticker.utils
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import com.fiore.wazirxticker.databinding.LayoutLoaderDialogBinding
+import com.google.android.material.snackbar.Snackbar
 
 fun getLoaderDialog(context: Context, msg : String) : AlertDialog {
     val loaderView = LayoutLoaderDialogBinding.inflate(LayoutInflater.from(context))
@@ -25,3 +30,8 @@ fun changeAppTheme(theme: String) {
         }
     )
 }
+
+data class SnackbarAction(
+    @StringRes val actionTitle: Int,
+    val actionToPerform: () -> Unit
+)

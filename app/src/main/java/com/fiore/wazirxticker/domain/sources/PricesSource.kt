@@ -36,6 +36,12 @@ class PricesSource @Inject constructor(
         }
     }
 
+    suspend fun updateCoinVisibilityStatus(name : String, show : Boolean) {
+        withContext(Dispatchers.IO) {
+            database.coinPricesDao().updateCoinVisibilityStatus(name, show)
+        }
+    }
+
     suspend fun getAllCoinsAtOnce(): List<Coin> {
         return withContext(Dispatchers.IO) { database.coinPricesDao().getAllCoinsAtOnce() }
     }
