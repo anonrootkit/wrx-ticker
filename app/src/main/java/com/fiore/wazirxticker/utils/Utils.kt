@@ -39,7 +39,7 @@ fun calculateCurrentPrice(coin: Coin, buyAmount : BigInteger, buyPrice : BigDeci
 fun calculateCurrentProfitPercent(coin: Coin, buyAmount : BigInteger, buyPrice : BigDecimal) : BigDecimal {
     val currentPricePerCoin = coin.price.sellPrice.bd()
     val currentAmount : BigDecimal = (currentPricePerCoin * getTotalCoins(buyAmount, buyPrice))
-    return ((currentAmount/buyAmount.toBigDecimal())* BigDecimal(100)) - BigDecimal(100)
+    return (((currentAmount/buyAmount.toBigDecimal())* BigDecimal(100)) - BigDecimal(100)).divide(1.toBigDecimal(), 2, RoundingMode.HALF_EVEN)
 }
 
 fun getTotalCoins(buyAmount: BigInteger, buyPrice: BigDecimal): BigDecimal {

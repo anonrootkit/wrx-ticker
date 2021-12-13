@@ -30,12 +30,14 @@ android {
         debug {
             applicationIdSuffix ".debug"
             buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "PATREON_URL", PATREON_URL
         }
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             buildConfigField "String", "BASE_URL", BASE_URL
+            buildConfigField "String", "PATREON_URL", PATREON_URL
         }
     }
 

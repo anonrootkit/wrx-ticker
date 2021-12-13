@@ -1,4 +1,5 @@
 @file:SuppressLint("NullSafeMutableLiveData")
+@file:Suppress("unused", "SpellCheckingInspection")
 
 package com.fiore.wazirxticker.ui.viewmodels
 
@@ -308,5 +309,5 @@ class PricesViewModel @Inject constructor(
 
 enum class Currency(val value: String) {
     INR("inr"),
-    USD("usd")
+    USDT("usdt")
 }

@@ -15,6 +15,12 @@
         <action
             android:id="@+id/action_coins_to_investments"
             app:destination="@id/investments" />
+        <action
+            android:id="@+id/action_coins_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_coins_to_coffee"
+            app:destination="@id/coffee" />
     </fragment>
     <dialog
         android:id="@+id/newCoin"
@@ -28,9 +34,23 @@
         <action
             android:id="@+id/action_investments_to_newInvestment"
             app:destination="@id/newInvestment" />
+        <action
+            android:id="@+id/action_investments_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_investments_to_coffee"
+            app:destination="@id/coffee" />
     </fragment>
     <dialog
         android:id="@+id/newInvestment"
         android:name="com.fiore.wazirxticker.ui.home.add.NewInvestment"
         android:label="NewInvestment" />
+    <dialog
+        android:id="@+id/settings"
+        android:name="com.fiore.wazirxticker.ui.home.settings.Settings"
+        android:label="Settings" />
+    <dialog
+        android:id="@+id/coffee"
+        android:name="com.fiore.wazirxticker.ui.home.coffee.Coffee"
+        android:label="Coffee" />
 </navigation>
