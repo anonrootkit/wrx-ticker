@@ -14,10 +14,7 @@ import com.fiore.wazirxticker.ui.home.coins.adapter.CoinSwipeListener
 import com.fiore.wazirxticker.ui.home.coins.adapter.CoinsAdapter
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
 import com.fiore.wazirxticker.ui.viewmodels.UtilsViewModel
-import com.fiore.wazirxticker.utils.SnackbarAction
-import com.fiore.wazirxticker.utils.ThemeConstants
-import com.fiore.wazirxticker.utils.applyThemeSettings
-import com.fiore.wazirxticker.utils.changeAppTheme
+import com.fiore.wazirxticker.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,20 +75,12 @@ class Coins : Fragment(R.layout.fragment_coins) {
     }
 
     private fun initToolbar() {
-        binding.toolbar.toggleTheme
-            .applyThemeSettings(theme = utilsViewModel.getCurrentTheme()) { currentTheme ->
-                when (currentTheme) {
-                    ThemeConstants.LIGHT -> {
-                        changeAppTheme(ThemeConstants.DARK)
-                        utilsViewModel.setCurrentAppTheme(ThemeConstants.DARK)
-                    }
-                    ThemeConstants.DARK -> {
-                        changeAppTheme(ThemeConstants.LIGHT)
-                        utilsViewModel.setCurrentAppTheme(ThemeConstants.LIGHT)
-                    }
-                }
+        binding.toolbar.settings.setOnClickListener {
+            safeNavigate(CoinsDirections.actionCoinsToSettings())
+        }
 
-                initToolbar()
-            }
+        binding.toolbar.coffee.setOnClickListener {
+            safeNavigate(CoinsDirections.actionCoinsToCoffee())
+        }
     }
 }

@@ -25,4 +25,12 @@
     <string name="undo_coin_delete">Undo coin delete</string>
     <string name="undo_investment_delete">Undo investment delete</string>
     <string name="undo">Undo</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="toggle_between_dark_and_light_mode">Toggle between dark and light mode</string>
+    <string name="toggle_between_inr_usdt">Toggle between INR and USDT currency</string>
+    <string name="inr">INR</string>
+    <string name="usdt">USDT</string>
+    <string name="liking_the_work">Liking the work?</string>
+    <string name="show_your_support_by_buying_a_coffee_for_me">Show your support by buying a coffee for me ☕️</string>
+    <string name="buy_a_coffee"><u>Buy a coffee</u></string>
 </resources>

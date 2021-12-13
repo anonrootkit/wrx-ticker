@@ -10,15 +10,17 @@
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1935" />
         <entry key="app/src/main/res/drawable/ic_done.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/ic_light_theme.xml" value="0.249" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_coffee.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_coins.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_investments.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_new_coin.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_new_investment.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/home_bottom_app_bar.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/home_bottom_navigation.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_loader_dialog.xml" value="0.2953125" />
-        <entry key="app/src/main/res/layout/layout_toolbar_coins.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/layout_toolbar_coins.xml" value="0.2907692307692308" />
         <entry key="app/src/main/res/layout/layout_toolbar_investments.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/list_item_coin.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_item_investment.xml" value="0.3098958333333333" />

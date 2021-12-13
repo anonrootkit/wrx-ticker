@@ -32,7 +32,7 @@ fun formattedString(view: View, text: Any?, format: String?) {
 @BindingAdapter("profit_color")
 fun investmentProfitColor(view: TextView, investment: Investment?) {
     investment?.let {
-        val hasProfit = investment.profitAmount >= investment.buyAmount
+        val hasProfit = investment.profitAmount.toBigInteger() >= investment.buyAmount.toBigInteger()
         val color = ResourcesCompat.getColor(
             view.resources,
             if (hasProfit) R.color.md_green_500 else R.color.md_red_500,
