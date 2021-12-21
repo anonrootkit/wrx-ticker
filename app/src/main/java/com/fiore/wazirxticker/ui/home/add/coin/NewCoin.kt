@@ -1,4 +1,4 @@
-package com.fiore.wazirxticker.ui.home.add
+package com.fiore.wazirxticker.ui.home.add.coin
 
 import android.os.Bundle
 import android.view.LayoutInflater

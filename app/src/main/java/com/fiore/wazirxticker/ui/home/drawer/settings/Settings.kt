@@ -1,4 +1,4 @@
-package com.fiore.wazirxticker.ui.home.settings
+package com.fiore.wazirxticker.ui.home.drawer.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater

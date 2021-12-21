@@ -32,7 +32,8 @@ fun formattedString(view: View, text: Any?, format: String?) {
 @BindingAdapter("profit_color")
 fun investmentProfitColor(view: TextView, investment: Investment?) {
     investment?.let {
-        val hasProfit = investment.profitAmount.toBigInteger() >= investment.buyAmount.toBigInteger()
+        val hasProfit =
+            investment.profitAmount.toBigInteger() >= investment.buyAmount.toBigInteger()
         val color = ResourcesCompat.getColor(
             view.resources,
             if (hasProfit) R.color.md_green_500 else R.color.md_red_500,
@@ -40,4 +41,16 @@ fun investmentProfitColor(view: TextView, investment: Investment?) {
         )
         view.setTextColor(color)
     }
+}
+
+@BindingAdapter("profitColor")
+fun historyProfitColor(view: TextView, profitAmount: String?) {
+    if (profitAmount.isNullOrBlank()) return
+    val hasProfit = profitAmount.bd() > 0.toBigDecimal()
+    val color = ResourcesCompat.getColor(
+        view.resources,
+        if (hasProfit) R.color.md_green_500 else R.color.md_red_500,
+        null
+    )
+    view.setTextColor(color)
 }
