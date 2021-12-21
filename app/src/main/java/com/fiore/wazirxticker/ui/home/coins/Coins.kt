@@ -75,8 +75,8 @@ class Coins : Fragment(R.layout.fragment_coins) {
     }
 
     private fun initToolbar() {
-        binding.toolbar.settings.setOnClickListener {
-            safeNavigate(CoinsDirections.actionCoinsToSettings())
+        binding.toolbar.drawer.setOnClickListener {
+            safeNavigate(CoinsDirections.actionCoinsToDrawer())
         }
 
         binding.toolbar.coffee.setOnClickListener {

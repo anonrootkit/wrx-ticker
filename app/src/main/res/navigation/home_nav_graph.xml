@@ -16,15 +16,15 @@
             android:id="@+id/action_coins_to_investments"
             app:destination="@id/investments" />
         <action
-            android:id="@+id/action_coins_to_settings"
-            app:destination="@id/settings" />
-        <action
             android:id="@+id/action_coins_to_coffee"
             app:destination="@id/coffee" />
+        <action
+            android:id="@+id/action_coins_to_drawer"
+            app:destination="@id/drawer" />
     </fragment>
     <dialog
         android:id="@+id/newCoin"
-        android:name="com.fiore.wazirxticker.ui.home.add.NewCoin"
+        android:name="com.fiore.wazirxticker.ui.home.add.coin.NewCoin"
         android:label="NewCoin" />
     <fragment
         android:id="@+id/investments"
@@ -32,25 +32,53 @@
         android:label="fragment_investments"
         tools:layout="@layout/fragment_investments" >
         <action
-            android:id="@+id/action_investments_to_newInvestment"
-            app:destination="@id/newInvestment" />
-        <action
-            android:id="@+id/action_investments_to_settings"
-            app:destination="@id/settings" />
-        <action
             android:id="@+id/action_investments_to_coffee"
             app:destination="@id/coffee" />
+        <action
+            android:id="@+id/action_investments_to_drawer"
+            app:destination="@id/drawer" />
+        <action
+            android:id="@+id/action_investments_to_investment"
+            app:destination="@id/investment" />
     </fragment>
     <dialog
-        android:id="@+id/newInvestment"
-        android:name="com.fiore.wazirxticker.ui.home.add.NewInvestment"
-        android:label="NewInvestment" />
-    <dialog
         android:id="@+id/settings"
-        android:name="com.fiore.wazirxticker.ui.home.settings.Settings"
+        android:name="com.fiore.wazirxticker.ui.home.drawer.settings.Settings"
         android:label="Settings" />
     <dialog
         android:id="@+id/coffee"
         android:name="com.fiore.wazirxticker.ui.home.coffee.Coffee"
         android:label="Coffee" />
+    <dialog
+        android:id="@+id/drawer"
+        android:name="com.fiore.wazirxticker.ui.home.drawer.Drawer"
+        android:label="Drawer" >
+        <action
+            android:id="@+id/action_drawer_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_drawer_to_history"
+            app:destination="@id/history" />
+    </dialog>
+    <dialog
+        android:id="@+id/investment"
+        android:name="com.fiore.wazirxticker.ui.home.add.investment.Investment"
+        android:label="Investment" >
+        <argument
+            android:name="history"
+            app:argType="com.fiore.wazirxticker.data.database.entities.History"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
+    <fragment
+        android:id="@+id/history"
+        android:name="com.fiore.wazirxticker.ui.home.drawer.history.History"
+        android:label="History" >
+        <action
+            android:id="@+id/action_history_to_coffee"
+            app:destination="@id/coffee" />
+        <action
+            android:id="@+id/action_history_to_investment"
+            app:destination="@id/investment" />
+    </fragment>
 </navigation>

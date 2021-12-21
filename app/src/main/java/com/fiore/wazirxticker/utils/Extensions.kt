@@ -14,6 +14,8 @@ import androidx.navigation.fragment.findNavController
 import timber.log.Timber
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Any.timberD(msg: String) {
     Timber.tag(this.javaClass.simpleName).d(msg)
@@ -43,6 +45,10 @@ fun Fragment.safeNavigate(direction: NavDirections) {
     findNavController().safeNavigate(direction)
 }
 
+fun Fragment.navigateUp() {
+    findNavController().navigateUp()
+}
+
 fun String.isValid(): Boolean {
     return validatePrice(this)
 }
@@ -55,4 +61,16 @@ fun BigInteger.bds() = toBigDecimal().toPlainString()
 
 fun Fragment.openUrl(url : String) {
     activity?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+}
+
+fun Long.getDate(format : String) : String {
+    val formatter = SimpleDateFormat(format, Locale.getDefault())
+    val calendar = Calendar.getInstance().apply { timeInMillis = this@getDate }
+    return formatter.format(calendar.time)
+}
+
+fun Long?.getDateComponents() : Triple<Int, Int, Int> {
+    val time = this ?: System.currentTimeMillis()
+    val calendar = Calendar.getInstance().apply { timeInMillis = time }
+    return Triple(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR))
 }

@@ -16,7 +16,7 @@ class PreferenceStorage @Inject constructor(private val preferences: SharedPrefe
     }
 
     fun getCurrentAppTheme(): String {
-        return preferences.getString(APP_THEME, ThemeConstants.LIGHT) ?: ThemeConstants.LIGHT
+        return preferences.getString(APP_THEME, ThemeConstants.DARK) ?: ThemeConstants.DARK
     }
 
     fun clearData() {

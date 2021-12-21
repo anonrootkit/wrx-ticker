@@ -9,17 +9,19 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.fiore.wazirxticker.R
 import com.fiore.wazirxticker.databinding.FragmentInvestmentsBinding
 import com.fiore.wazirxticker.ui.home.HomeActivity
-import com.fiore.wazirxticker.ui.home.coins.CoinsDirections
 import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentSwipeListener
 import com.fiore.wazirxticker.ui.home.investments.adapter.InvestmentsAdapter
+import com.fiore.wazirxticker.ui.viewmodels.HistoryViewModel
 import com.fiore.wazirxticker.ui.viewmodels.PricesViewModel
-import com.fiore.wazirxticker.utils.*
+import com.fiore.wazirxticker.utils.SnackbarAction
+import com.fiore.wazirxticker.utils.safeNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Investments : Fragment(R.layout.fragment_investments) {
-    private lateinit var binding : FragmentInvestmentsBinding
-    private val pricesViewModel : PricesViewModel by viewModels()
+    private lateinit var binding: FragmentInvestmentsBinding
+    private val pricesViewModel: PricesViewModel by viewModels()
+    private val historyViewModel: HistoryViewModel by viewModels()
 
     private val investmentsAdapter by lazy {
         InvestmentsAdapter(
@@ -39,21 +41,40 @@ class Investments : Fragment(R.layout.fragment_investments) {
             investmentsAdapter = investmentsAdapter,
             deleteInvestment = { investment ->
                 pricesViewModel.deleteInvestmentFromDB(investment)
+                showSnackBar(investmentDeleted = true)
+            },
+            moveInvestmentToHistory = { investment ->
+                historyViewModel.insertInvestmentToHistory(investment)
+                pricesViewModel.deleteInvestmentFromDB(investment)
                 showSnackBar()
             }
         )
     }
 
-    private fun showSnackBar() {
-        (activity as? HomeActivity)?.showSnackbar(
-            snackbarMsg = getString(R.string.undo_investment_delete),
-            snackbarAction = SnackbarAction(
-                actionTitle = R.string.undo,
-                actionToPerform = {
-                    pricesViewModel.undoDeleteInvestment()
-                }
+    private fun showSnackBar(investmentDeleted: Boolean = false) {
+        if (investmentDeleted)
+            (activity as? HomeActivity)?.showSnackbar(
+                snackbarMsg = getString(R.string.undo_investment_delete),
+                snackbarAction = SnackbarAction(
+                    actionTitle = R.string.undo,
+                    actionToPerform = {
+                        pricesViewModel.undoDeleteInvestment()
+                    }
+                ),
+                long = true
             )
-        )
+        else
+            (activity as? HomeActivity)?.showSnackbar(
+                snackbarMsg = getString(R.string.investment_added_to_history),
+                snackbarAction = SnackbarAction(
+                    actionTitle =  R.string.undo,
+                    actionToPerform = {
+                        pricesViewModel.undoDeleteInvestment()
+                        historyViewModel.undoHistoryInsertion()
+                    }
+                ),
+                long = true
+            )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,20 +103,22 @@ class Investments : Fragment(R.layout.fragment_investments) {
         pricesViewModel.investments.observe(viewLifecycleOwner) {
             investmentsAdapter.submitList(it)
             pricesViewModel.startUpdatingInvestments()
-            binding.eachInvestmentLabel.visibility = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
+            binding.eachInvestmentLabel.visibility =
+                if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
             binding.emptyInvestmentText.visibility =
                 if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
 
         pricesViewModel.combinedInvestments.observe(viewLifecycleOwner) {
             combinedInvestmentsAdapter.submitList(it)
-            binding.combinedInvestmentLabel.visibility = if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
+            binding.combinedInvestmentLabel.visibility =
+                if (it.isNullOrEmpty()) View.GONE else View.VISIBLE
         }
     }
 
     private fun initToolbar() {
-        binding.toolbar.settings.setOnClickListener {
-            safeNavigate(InvestmentsDirections.actionInvestmentsToSettings())
+        binding.toolbar.drawer.setOnClickListener {
+            safeNavigate(InvestmentsDirections.actionInvestmentsToDrawer())
         }
 
         binding.toolbar.coffee.setOnClickListener {

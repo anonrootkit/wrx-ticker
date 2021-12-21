@@ -18,9 +18,9 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageView
-            android:id="@+id/settings"
+            android:id="@+id/drawer"
             style="@style/SETTINGS_ICON"
-            app:srcCompat="@drawable/ic_settings"
+            app:srcCompat="@drawable/ic_drawer"
             />
 
         <ImageView

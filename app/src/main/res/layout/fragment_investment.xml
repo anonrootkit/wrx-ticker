@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/buy_order"
+            android:text="@string/buy"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textColor="@color/investment_buy_tab_color_state_list"
+            app:layout_constraintEnd_toStartOf="@id/sell_order"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/sell"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/investment_sell_tab_color_state_list"
+            app:layout_constraintStart_toEndOf="@id/buy_order"
+            android:id="@+id/sell_order"
+            />
+
+        <View
+            style="@style/DIVIDER"
+            app:layout_constraintTop_toBottomOf="@id/buy_order"
+            android:id="@+id/divider"
+            />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/investment_screens"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            tools:layout="@layout/fragment_new_investment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:navGraph="@navigation/investment_nav_graph"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,6 +2,7 @@
 
 package com.fiore.wazirxticker.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -28,13 +29,25 @@ class HomeActivity : AppCompatActivity() {
 
             val currentScreenId = destination.id
             toggleFab(currentScreenId)
+            toggleBottomNav(currentScreenId)
         }
+
+    private fun toggleBottomNav(currentScreenId: Int) {
+        binding.bottomNavigationContainer.root.visibility = when (currentScreenId) {
+            R.id.history -> View.GONE
+            else -> View.VISIBLE
+        }
+    }
 
     private fun toggleFab(currentScreenId: Int) {
         binding.bottomNavigationContainer.addCoinFab.visibility = when (currentScreenId) {
-            R.id.coins -> View.VISIBLE
-            R.id.newCoin -> View.VISIBLE
-            R.id.investments -> View.VISIBLE
+            R.id.coins,
+            R.id.newCoin,
+            R.id.investments,
+            R.id.drawer,
+            R.id.coffee,
+            R.id.settings,
+            R.id.investment -> View.VISIBLE
             else -> View.GONE
         }
     }
@@ -50,9 +63,9 @@ class HomeActivity : AppCompatActivity() {
         rootNavController.addOnDestinationChangedListener(screenChangeListener)
 
         binding.bottomNavigationContainer.addCoinFab.setOnClickListener {
-            when(rootNavController.currentDestination?.id){
-                R.id.coins ->  rootNavController.navigate(R.id.newCoin)
-                R.id.investments -> rootNavController.navigate(R.id.newInvestment)
+            when (rootNavController.currentDestination?.id) {
+                R.id.coins -> rootNavController.navigate(R.id.newCoin)
+                R.id.investments -> rootNavController.navigate(R.id.investment)
                 else -> View.GONE
             }
         }
@@ -68,17 +81,25 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun showSnackbar(
+        context: Context = this,
         snackbarMsg: String,
         snackbarAction: SnackbarAction? = null,
+        long: Boolean = false,
+        anchorView: View? = binding.bottomNavigationContainer.root
     ) {
         try {
-            val snackbar = Snackbar.make(this, binding.bottomNavigationContainer.root, snackbarMsg, Snackbar.LENGTH_SHORT)
+            val snackbar = Snackbar.make(
+                context,
+                binding.bottomNavigationContainer.root,
+                snackbarMsg,
+                if (long) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
+            )
             snackbarAction?.let { action ->
                 snackbar.setAction(action.actionTitle) {
                     action.actionToPerform()
                 }
             }
-            snackbar.anchorView = binding.bottomNavigationContainer.root
+            snackbar.anchorView = anchorView
             snackbar.show()
         } catch (e: Exception) {
 

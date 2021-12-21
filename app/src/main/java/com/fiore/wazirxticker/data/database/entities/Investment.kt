@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class Investment(
-    @PrimaryKey()
+    @PrimaryKey
     @ColumnInfo(name = "id")
     val id: Long,
 
@@ -36,7 +36,10 @@ data class Investment(
     val totalCoins : String,
 
     @ColumnInfo(name = "is_combined_investment")
-    val isCombinedInvestment : Boolean = false
+    val isCombinedInvestment : Boolean = false,
+
+    @ColumnInfo(name = "buy_date", defaultValue = "0")
+    val buyDate : Long
 ){
     fun formattedTotalCoins() = "Coins : $totalCoins"
     fun formattedProfitAmount() = "₹$profitAmount"

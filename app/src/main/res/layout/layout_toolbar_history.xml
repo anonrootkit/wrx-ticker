@@ -11,7 +11,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/TOOLBAR_TITLE"
-            android:text="@string/coins"
+            android:text="@string/history"
             />
 
         <View
@@ -20,15 +20,9 @@
             />
 
         <ImageView
-            android:id="@+id/drawer"
-            style="@style/SETTINGS_ICON"
-            app:srcCompat="@drawable/ic_drawer"
-            />
-
-        <ImageView
             android:id="@+id/coffee"
             style="@style/COFFEE_ICON"
-            app:srcCompat="@drawable/ic_coffee"
+            app:srcCompat="@drawable/ic_back"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -142,7 +142,8 @@ class PricesViewModel @Inject constructor(
                 RoundingMode.HALF_EVEN
             ).toPlainString(),
             isCombinedInvestment = true,
-            buyPrice = "0"
+            buyPrice = "0",
+            buyDate = 0
         )
 
         return investment
@@ -221,7 +222,7 @@ class PricesViewModel @Inject constructor(
         investmentsSource.updateInvestment(updatedInvestment)
     }
 
-    fun insertInvestment(name: String, buyPrice: BigDecimal, buyAmount: BigInteger) {
+    fun insertInvestment(name: String, buyPrice: BigDecimal, buyAmount: BigInteger, date : Long) {
         viewModelScope.launch {
             _addingInvestmentStatus.value = ResponseStatus.LOADING
             val coin = pricesSource.getCoinFromDB(name)
@@ -240,13 +241,13 @@ class PricesViewModel @Inject constructor(
                             pricesSource.insertCoinInDB(fetchedCoin.copy(showCoinInList = true))
                         }
 
-                        insertInvestmentInDB(fetchedCoin, buyAmount, buyPrice)
+                        insertInvestmentInDB(fetchedCoin, buyAmount, buyPrice, date)
                     }
                 }
 
                 _addingInvestmentStatus.value = response.status
             } else {
-                insertInvestmentInDB(coin, buyAmount, buyPrice)
+                insertInvestmentInDB(coin, buyAmount, buyPrice, date)
                 _addingInvestmentStatus.value = ResponseStatus.SUCCESS
             }
         }
@@ -255,7 +256,8 @@ class PricesViewModel @Inject constructor(
     private suspend fun insertInvestmentInDB(
         coin: Coin,
         buyAmount: BigInteger,
-        buyPrice: BigDecimal
+        buyPrice: BigDecimal,
+        date : Long
     ) {
         val investment = Investment(
             id = System.currentTimeMillis(),
@@ -268,7 +270,8 @@ class PricesViewModel @Inject constructor(
                 buyAmount,
                 buyPrice
             ).toPlainString(),
-            totalCoins = getTotalCoins(buyAmount, buyPrice).toPlainString()
+            totalCoins = getTotalCoins(buyAmount, buyPrice).toPlainString(),
+            buyDate = date
         )
 
         investmentsSource.insertInvestment(investment)
