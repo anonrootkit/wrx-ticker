@@ -56,4 +56,8 @@
     <string name="delete">Delete</string>
     <string name="added_in_investment_history">Added in history</string>
     <string name="update_history">Update History</string>
+    <string name="update_is_ready_to_install">Update is ready to install</string>
+    <string name="install">Install</string>
+    <string name="new_version_available">NEW VERSION AVAILABLE</string>
+    <string name="update">Update Available</string>
 </resources>

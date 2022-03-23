@@ -22,4 +22,10 @@ class UtilsViewModel
     fun updateDismissInvestmentBottomSheet(dismiss : Boolean) {
         _dismissInvestmentsBottomSheet.value = dismiss
     }
+
+    fun setUpdateAvailable(updateAvailable: Boolean) {
+        generalSource.setUpdateAvailable(updateAvailable)
+    }
+
+    fun getUpdateAvailable(): Boolean = generalSource.getUpdateAvailable()
 }
