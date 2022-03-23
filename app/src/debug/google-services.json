@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1022399467916",
+    "project_id": "wazirx-ticker-debug",
+    "storage_bucket": "wazirx-ticker-debug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022399467916:android:aad2582c8762145596c6a9",
+        "android_client_info": {
+          "package_name": "com.fiore.wazirxticker.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022399467916-nq4hopb4q25hagvchtc0kk6p7i72be1m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fiore.wazirxticker.debug",
+            "certificate_hash": "34b919662f172d54b5d98341c904d2cbd1dcd7c9"
+          }
+        },
+        {
+          "client_id": "1022399467916-lac9kgr8g1eeevnqtb30ntqrjgk0ek7j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL5vTqPpJmbAe0ehDjv9_c73krcJ3Nvx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022399467916-lac9kgr8g1eeevnqtb30ntqrjgk0ek7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

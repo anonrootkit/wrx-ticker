@@ -1,4 +1,4 @@
-package com.fiore.wazirxticker.ui.home.settings
+package com.fiore.wazirxticker.ui.home.drawer.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.fiore.wazirxticker.databinding.FragmentSettingsBinding
+import com.fiore.wazirxticker.ui.home.HomeActivity
 import com.fiore.wazirxticker.ui.viewmodels.UtilsViewModel
 import com.fiore.wazirxticker.utils.ThemeConstants
 import com.fiore.wazirxticker.utils.changeAppTheme
@@ -39,10 +40,16 @@ class Settings : BottomSheetDialogFragment() {
             utilsViewModel.setCurrentAppTheme(newTheme)
             changeAppTheme(newTheme)
         }
+
+        binding.appUpdateButton.setOnClickListener {
+            val activity = activity as? HomeActivity ?: return@setOnClickListener
+            activity.checkForAppUpdates()
+        }
     }
 
     private fun initView() {
         val currentTheme = utilsViewModel.getCurrentTheme()
         binding.darkModeToggleButton.isChecked = currentTheme == ThemeConstants.DARK
+        binding.appUpdateButton.visibility = if (utilsViewModel.getUpdateAvailable()) View.VISIBLE else View.GONE
     }
 }

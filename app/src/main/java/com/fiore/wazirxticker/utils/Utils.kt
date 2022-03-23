@@ -54,3 +54,11 @@ fun validatePrice(price : String) : Boolean{
         false
     }
 }
+
+fun calculateHistoryProfitAmountAndPercentage(buyAmount : BigDecimal, sellAmount : BigDecimal, coinsCount : BigDecimal) : Pair<String, String> {
+    val coinsBoughtAt = buyAmount.multiply(coinsCount)
+    val coinsSoldAt = sellAmount.multiply(coinsCount)
+    val profitAmount = coinsSoldAt.subtract(coinsBoughtAt).divide(1.toBigDecimal(), 2, RoundingMode.HALF_EVEN)
+    val profitPercentage = coinsSoldAt.divide(coinsBoughtAt, 2, RoundingMode.HALF_EVEN).multiply(100.toBigDecimal()).subtract(100.toBigDecimal())
+    return profitAmount.toPlainString() to profitPercentage.toPlainString()
+}

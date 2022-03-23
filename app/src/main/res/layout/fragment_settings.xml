@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:paddingBottom="32dp"
-        tools:context=".ui.home.settings.Settings">
+        tools:context=".ui.home.drawer.settings.Settings">
 
         <View
             android:layout_width="56dp"
@@ -50,6 +50,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:text="@string/update"
+            app:cornerRadius="56dp"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/gray_dark"
+            android:textAppearance="?textAppearanceOverline"
+            android:id="@+id/app_update_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

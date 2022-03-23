@@ -15,8 +15,11 @@ class GeneralSource @Inject constructor(
         }
     }
 
-
     fun setCurrentAppTheme(theme: String) = preferenceStorage.setCurrentAppTheme(theme)
 
     fun getCurrentAppTheme(): String = preferenceStorage.getCurrentAppTheme()
+
+    fun setUpdateAvailable(updateAvailable: Boolean) = preferenceStorage.setUpdateAvailable(updateAvailable)
+
+    fun getUpdateAvailable(): Boolean = preferenceStorage.getUpdateAvailable()
 }

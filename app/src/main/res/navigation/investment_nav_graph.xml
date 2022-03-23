@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/investment_nav_graph"
+    app:startDestination="@id/newInvestment">
+
+    <fragment
+        android:id="@+id/newInvestment"
+        android:name="com.fiore.wazirxticker.ui.home.add.investment.NewInvestment"
+        android:label="NewInvestment"
+        tools:layout="@layout/fragment_new_investment"
+        >
+        <action
+            android:id="@+id/action_newInvestment_to_newHistory"
+            app:destination="@id/newHistory" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newHistory"
+        android:name="com.fiore.wazirxticker.ui.home.add.investment.NewHistory"
+        android:label="fragment_new_history"
+        tools:layout="@layout/fragment_new_history" >
+        <action
+            android:id="@+id/action_newHistory_to_newInvestment"
+            app:destination="@id/newInvestment" />
+        <argument
+            android:name="history"
+            app:argType="com.fiore.wazirxticker.data.database.entities.History"
+            app:nullable="true" />
+    </fragment>
+
+
+</navigation>
